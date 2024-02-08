@@ -23,12 +23,13 @@ function findPhotos(q) {
 
   return fetch(url, options)
     .then(res => res.json())
-    .catch(error => {}
-      iziToast.error({ message:
+    .catch(error => {
+      iziToast.error({
+        message:
           'Sorry, there are no images matching your search query. Please try again!',
         position: 'topRight',
-      })
-    );
+      });
+    });
 }
 
 findPhotos('cat');
