@@ -7,21 +7,23 @@ const gallery = document.querySelector('.gallery');
 const input = document.querySelector('.input');
 const container = document.querySelector('.container');
 
-function findPhotos(q) {
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const q = e.target.elements.input.value;
+  const key = '42276910-5dbc0617c597b0712888fd711';
+
+  findPhotos(key, q);
+
+  e.target.reset();
+});
+
+function findPhotos(key, q) {
   const BASE_URL = 'https://pixabay.com';
   const END_POINT = '/api/';
-  const PARAMS = `${q}`;
+  const PARAMS = `?key=${key}&q=${q}&image_type=photo&orientation=horizontal&safesearch=true`;
   const url = BASE_URL + END_POINT + PARAMS;
 
-  const options = {
-    key: '42276910-5dbc0617c597b0712888fd711',
-    q,
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: 'true',
-  };
-
-  return fetch(url, options)
+  return fetch(url)
     .then(res => res.json())
     .catch(error => {
       iziToast.error({
@@ -31,5 +33,3 @@ function findPhotos(q) {
       });
     });
 }
-
-findPhotos('cat');
