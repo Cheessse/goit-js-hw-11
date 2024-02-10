@@ -20,6 +20,7 @@ form.addEventListener('submit', onFormSubmit);
 
 function onFormSubmit(e) {
   e.preventDefault();
+  gallery.innerHTML = '';
   const q = e.target.elements.input.value;
   const key = '42276910-5dbc0617c597b0712888fd711';
 
@@ -54,6 +55,15 @@ function findPhotos(key, q) {
 }
 
 function createMarkup(data) {
+  if (data.hits.length === 0) {
+    iziToast.error({
+      message:
+        'Sorry, there are no images matching your search query. Please try again!',
+      position: 'topRight',
+    });
+    return;
+  }
+
   const markup = data.hits
     .map(data => {
       return `<li class="gallery-item">
@@ -71,7 +81,6 @@ function createMarkup(data) {
   gallery.insertAdjacentHTML('afterbegin', markup);
   const lightbox = new SimpleLightbox('.gallery a', options);
   lightbox.refresh();
-  lightbox.on('show.simplelightbox');
 }
 
 const options = {
